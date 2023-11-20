@@ -16,6 +16,7 @@ services:
       - mariadb-server
     networks:
       - zabbix-net
+    restart: always  
 
   zabbix-web:
     image: zabbix/zabbix-web-nginx-mysql:latest
@@ -34,12 +35,13 @@ services:
       - zabbix-server
     networks:
       - zabbix-net
+    restart: always  
 
   mariadb-server:
     image: mariadb:latest
     container_name: mariadb-server
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=zabbix
       - MYSQL_DATABASE=zabbix
@@ -49,7 +51,16 @@ services:
       - mariadb-data:/var/lib/mysql
     networks:
       - zabbix-net
-
+    restart: always  
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    depends_on:
+      - zabbix-server
+    networks:
+      - zabbix-net
+    restart: always
 networks:
   zabbix-net:
     
