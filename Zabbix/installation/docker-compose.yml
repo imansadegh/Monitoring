@@ -60,6 +60,7 @@ services:
       - zabbix-server
     networks:
       - zabbix-net
+    command:  grafana-cli plugins install alexanderzobnin-zabbix-app
     restart: always
 networks:
   zabbix-net:
